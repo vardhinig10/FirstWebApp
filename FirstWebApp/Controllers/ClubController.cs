@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FirstWebApp.Data;
+using FirstWebApp.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -22,6 +24,12 @@ namespace FirstWebApp.Controllers
         {
             List<Models.Club> clubs = _context.Clubs.ToList();
             return View(clubs);
+        }
+
+        public IActionResult Detail(int id)
+        {
+            Club club = _context.Clubs.Include(a => a.Address).FirstOrDefault(c => c.Id == id);
+            return View(club);
         }
     }
 }
